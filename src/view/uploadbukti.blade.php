@@ -20,8 +20,7 @@
                     <div class="form-group">
 						<b>File Gambar</b><br/>
                         <input type="hidden" name="transaksi_id" value="{{$transaksi->id}}">
-						<input type="file" name="file">
-                        <small>*wajib diisi</small>
+						<input type="file" name="file" required>
 					</div>
                     <div class="form-group">
 						<b>Kode Transaksi</b><br/>
