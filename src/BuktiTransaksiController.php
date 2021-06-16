@@ -45,11 +45,15 @@ class BuktiTransaksiController extends Controller
 
             $bgr_upload               = new \Bageur\Auth\Model\upload;
             $bgr_upload->uuid         = $uuid;
+            $bgr_upload->group        = $bgr_upload->uuid;
             $upload                   = \Bageur::blob($file, 'bukti');
             $bgr_upload->folder       = $upload['path'];
-            $bgr_upload->file        = $upload['up'];
+            $bgr_upload->file         = $upload['up'];
             $bgr_upload->type         = $file->getMimeType();
             $bgr_upload->save();
+
+            $transaksi->bukti_pembayaran  = $bgr_upload->file;
+            $transaksi->save();
 
             $bgr_bukti                = new bukti_transaksi;
             $bgr_bukti->bgr_upload_id = $bgr_upload->id;
