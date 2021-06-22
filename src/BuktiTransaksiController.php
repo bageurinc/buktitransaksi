@@ -72,6 +72,19 @@ class BuktiTransaksiController extends Controller
             }
             $bgr_bukti->save();
 
+            $adminuser = \Bageur\Auth\Model\user::get();
+            $json      = json_decode($transaksi->kepada, true);
+            foreach ($adminuser as $key => $value) {
+                $ceknotif = json_decode($value->notifikasi);
+                if (isset($ceknotif->bukti_pembayaran)) {
+                    if ($ceknotif->bukti_pembayaran == true) {
+                        $title_admin = "Bukti Pembayaran";
+                        $desc_admin = "Bukti pembayaran dengan nama ".$json['kepada']." baru saja mengirim bukti pembayaran.";
+                        $value->notify(new \Bageur\BuktiTransaksi\Notifications\NotifBukti($title_admin, $desc_admin , $json['user_id'], $type= 'Bukti Bayar' , $bgr_bukti));
+                    }
+                }
+            }
+
             return view('bageur::berhasil');
         }
     }
